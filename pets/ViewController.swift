@@ -14,10 +14,15 @@ extension UIColor {
 class ViewController: UIViewController {
 
     //let´s avoid polluting viewDidLoad
-    let image: UIImage = UIImage(named: "dog")!
-    let imageView: UIImageView = UIImageView()
-   
-  
+    lazy var image: UIImage = UIImage(named: "dog")!
+    
+    lazy var imageView: UIImageView = {
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        
+        return imageView
+    }()
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
@@ -26,17 +31,15 @@ class ViewController: UIViewController {
         
         attributedText.append(NSAttributedString(string: "\n\n\nAlong with their noses, their hearing is super sensitive", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray]))
         
-//        attributedText.append(NSAttributedString(string: "\n\n\nTheir sense of smell is at least 40x better than ours", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray]))
+        attributedText.append(NSAttributedString(string: "\n\nTheir sense of smell is at least 40x better than ours", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.gray]))
 
         textView.attributedText = attributedText
-
         textView.textAlignment = .center
         textView.isEditable = false
         textView.isScrollEnabled = false
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
-    
     
     let previousButton: UIButton = {
         let button = UIButton(type: .system)
@@ -51,7 +54,6 @@ class ViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("NEXT", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        //let pinkColor = UIColor(red: 232/255, green: 68/255, blue: 133/255, alpha: 1)
         button.setTitleColor(.mainPink, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -61,9 +63,7 @@ class ViewController: UIViewController {
         let pc = UIPageControl()
         pc.currentPage = 0
         pc.numberOfPages = 4
-        //let pinkColor = UIColor(red: 232/255, green: 68/255, blue: 133/255, alpha: 1)
         pc.currentPageIndicatorTintColor = .mainPink
-        //pc.pageIndicatorTintColor = .gray
         pc.pageIndicatorTintColor = UIColor(red: 249/255, green: 207/255, blue: 224/255, alpha: 1)
         return pc
     }()
@@ -71,19 +71,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        imageView.image = image
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        
         view.addSubview(descriptionTextView)
         
-        setupLayout()
+        setupLayoutContraints()
         setupBottomControls()
     }
     
-    func setupLayout() {
+    func setupLayoutContraints() {
         let topImageContainerView = UIView()
-//        topImageContainerView.backgroundColor = .blue
         topImageContainerView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(topImageContainerView)
@@ -107,24 +102,11 @@ class ViewController: UIViewController {
     }
     
     func setupBottomControls() {
-//        view.addSubview(previousButton)
-//        previousButton.backgroundColor = .red
-        
-//        let yellowView = UIView()
-//        yellowView.backgroundColor = .yellow
-        
-//        let blueView = UIView()
-//        blueView.backgroundColor = .blue
-        
-//        let greenView = UIView()
-//        greenView.backgroundColor = .green
-        
         let bottomControlsStackView = UIStackView(arrangedSubviews: [previousButton, pageControl, nextButton])
         
         bottomControlsStackView.translatesAutoresizingMaskIntoConstraints = false
         bottomControlsStackView.distribution = .fillEqually
         view.addSubview(bottomControlsStackView)
-        
         
         bottomControlsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         bottomControlsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
