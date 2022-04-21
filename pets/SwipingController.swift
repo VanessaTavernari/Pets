@@ -10,6 +10,16 @@ import UIKit
 class SwipingController: UIViewController{
     var myCollectionView: UICollectionView?
     
+    let pages = [
+        Page(imageName: "dog", headerText: "Dog", bodyText: "Along with their noses, their hearing is super sensitive.\n\n\nTheir sense of smell is at least 40x better than ours"),
+        Page(imageName: "duck", headerText: "Duck", bodyText: "Ducks are so cute."),
+        Page(imageName: "cow", headerText: "Cow", bodyText: "Cows are very sensitive.\n\n\nCows are so cute."),
+        Page(imageName: "giraffe", headerText: "Giraffe", bodyText: "Giraffes are observers.")
+    ]
+    
+//    let imageNames = ["dog", "duck", "cow", "giraffe"]
+//    let headerStrings = ["Dog", "Duck", "Cow", "Giraffe"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,7 +35,7 @@ class SwipingController: UIViewController{
         myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         
     
-        myCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
+        myCollectionView?.register(PageCell.self, forCellWithReuseIdentifier: "MyCell")
         myCollectionView?.backgroundColor = UIColor.white
         myCollectionView?.isPagingEnabled = true
         
@@ -42,13 +52,26 @@ class SwipingController: UIViewController{
 
 extension SwipingController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return pages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath)
+        let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath) as! PageCell
+        
+        let page = pages[indexPath.item]
+        myCell.page = page
+        
+        
+        
+//        myCell.imageView.image = UIImage(named: page.imageName)
+//        myCell.descriptionTextView.text = page.headerText
+        
+//        let imageName = imageNames[indexPath.item]
+//        myCell.imageView.image = UIImage(named: imageName)
+//        myCell.descriptionTextView.text = headerStrings[indexPath.item]
+        
         //myCell.backgroundColor = UIColor.purple
-        myCell.backgroundColor = indexPath.item % 2 == 0 ? .red : .green
+//        myCell.backgroundColor = indexPath.item % 2 == 0 ? .red : .green
         return myCell
     }
     
