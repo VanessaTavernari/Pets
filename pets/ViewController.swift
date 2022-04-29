@@ -62,7 +62,7 @@ class ViewController: UIViewController {
     let pageControl: UIPageControl = {
         let pc = UIPageControl()
         pc.currentPage = 0
-        pc.numberOfPages = 4
+        pc.numberOfPages = 2
         pc.currentPageIndicatorTintColor = .mainPink
         pc.pageIndicatorTintColor = UIColor(red: 249/255, green: 207/255, blue: 224/255, alpha: 1)
         return pc

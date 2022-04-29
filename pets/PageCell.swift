@@ -54,6 +54,8 @@ class PageCell: UICollectionViewCell {
         return textView
     }()
     
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
